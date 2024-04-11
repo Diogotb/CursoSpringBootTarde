@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.webapp.escola_xyz_b.Model.Administrador;
 import com.webapp.escola_xyz_b.Repository.AdministradorRepository;
 import com.webapp.escola_xyz_b.Repository.VerificaCadastroAdmRepository;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class AdministradorController {
@@ -26,51 +25,59 @@ public class AdministradorController {
     boolean acessoAdm = false;
 
     @PostMapping("cadastrar-adm")
-    public String cadastrarAdmBD(Administrador adm) {
+    public ModelAndView cadastrarAdmBD(Administrador adm, RedirectAttributes attributes) {
         boolean verificaCpf = vcar.existsById(adm.getCpf());
+        ModelAndView mv = new ModelAndView("redirect:/login-adm");
         if (verificaCpf) {
             ar.save(adm);
-            System.out.println("Cadastro Realizado com Sucesso");
+            String mensagem = "Cadastro Realizado com Sucesso";
+            System.out.println(mensagem);
+            attributes.addFlashAttribute("msg", mensagem);
+            attributes.addFlashAttribute("classe", "verde");
         } else {
-            System.out.println("Falha ao Cadastrar");
+            String mensagem = "Cadastro não Permitido";
+            System.out.println(mensagem);
+            attributes.addFlashAttribute("msg", mensagem);
+            attributes.addFlashAttribute("classe", "vermelho");
 
         }
-        return "/login/login-adm";
+        return mv;
     }
 
     @GetMapping("/interna-adm")
-    public String acessoPageInternaAdm() {
+    public ModelAndView acessoPageInternaAdm(RedirectAttributes attributes) {
         String vaiPara = "";
+        ModelAndView mv = new ModelAndView(vaiPara);
         if (acessoAdm) {
-            vaiPara = "interna/interna-adm";
+            vaiPara = "/interna/interna-adm";
         } else {
-            vaiPara = "login/login-adm";
+            String mensagem = "Cadastro não Permitido";
+            System.out.println(mensagem);
+            attributes.addFlashAttribute("msg", mensagem);
+            attributes.addFlashAttribute("classe", "vermelho");
+            vaiPara = "redirect:/login-adm";
         }
-        return vaiPara;
+        return mv;
     }
 
     @PostMapping("acesso-adm")
     public ModelAndView acessoAdm(@RequestParam String cpf,
             @RequestParam String senha,
             RedirectAttributes redirectAttributes) {
-        String url = "";
-        ModelAndView mv = new ModelAndView();
+
+        ModelAndView mv = new ModelAndView("redirect:/interna-adm");
         try {
             boolean verificaCpf = ar.existsById(cpf);
             boolean verificaSenha = ar.findByCpf(cpf).getSenha().equals(senha);
 
             if (verificaCpf && verificaSenha) {
                 acessoAdm = true;
-
-                url = "redirect:/interna-adm";
-                mv.setViewName(url);
             } else {
                 String mensagem = "Login Não Efetuado: CPF ou senha incorretos";
                 System.out.println(mensagem);
                 redirectAttributes.addFlashAttribute("msg", mensagem);
                 redirectAttributes.addFlashAttribute("classe", "vermelho");
-                url = "redirect:/login-adm";
-                mv.setViewName(url);
+                mv.setViewName("redirect:/login-adm");
             }
             return mv;
 
@@ -79,7 +86,7 @@ public class AdministradorController {
             System.out.println(mensagem);
             redirectAttributes.addFlashAttribute("msg", mensagem);
             redirectAttributes.addFlashAttribute("classe", "vermelho");
-            url = "redirect:/login-adm";
+            mv.setViewName("redirect:/login-adm");
             return mv;
         }
 
