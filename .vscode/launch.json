@@ -2,11 +2,28 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EscolaXyzBApplication",
+            "request": "launch",
+            "mainClass": "com.webapp.escola_xyz_b.EscolaXyzBApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-EscolaXyzBApplication<escola_xyz_b>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.webapp.escola_xyz_b.EscolaXyzBApplication",
             "projectName": "escola_xyz_b",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EscolaCompletoApplication<escola_completo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "webapp.escola_completo.EscolaCompletoApplication",
+            "projectName": "escola_completo",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
