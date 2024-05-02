@@ -18,3 +18,4 @@ COPY --from=build /target/gamestore.jar app.jar
 
 # Defina o comando de inicialização da aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
