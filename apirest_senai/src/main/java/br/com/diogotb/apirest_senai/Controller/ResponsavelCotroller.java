@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,13 +42,17 @@ public class ResponsavelCotroller {
 
     @PutMapping("/{id}")
     public Responsavel putResponsavel(@PathVariable Long id, @RequestBody Responsavel responsavel) {
-        Optional<Responsavel> responsavel2 = repository.findById(id);
-        if (responsavel2.isPresent()) {
+        if(repository.existsById(id)){
             responsavel.setId(id);
             return repository.save(responsavel);
-        } else {
+        }else{
             return null;
         }
+    }
+    @DeleteMapping("/{id}")
+    public List<Responsavel> DeleteResponsvel(@PathVariable Long id){
+        repository.deleteById(id);
+        return (List<Responsavel>) repository.findAll();
     }
 
 }

@@ -26,6 +26,16 @@
             "projectName": "escola_completo",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApirestSenaiApplication<apirest_senai>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.com.diogotb.apirest_senai.ApirestSenaiApplication",
+            "projectName": "apirest_senai",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

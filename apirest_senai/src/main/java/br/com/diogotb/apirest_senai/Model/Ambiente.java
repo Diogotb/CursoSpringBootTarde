@@ -6,9 +6,7 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
-import lombok.Getter;
-
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Setter
@@ -21,11 +19,8 @@ public class Ambiente implements Serializable{
 
     private String nome;
 
-    @OneToMany(mappedBy = "ambiente")
-    private List<AtivoPatrimonial> ativos;
-
-    @OneToOne
-    @JoinColumn(name = "responsavel_id",referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "responsavel_id", nullable = false)
     private Responsavel responsavel;
 
     

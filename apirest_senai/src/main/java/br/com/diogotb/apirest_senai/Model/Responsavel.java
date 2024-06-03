@@ -9,13 +9,10 @@ import lombok.*;
 @Getter
 @Setter
 public class Responsavel implements Serializable{
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-
-    @OneToOne(mappedBy = "responsavel")
-    private Ambiente ambiente;
     
 }
